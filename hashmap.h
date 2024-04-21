@@ -11,6 +11,14 @@ public:
     std::vector<std::vector<House> > houses_by_year_built;
     std::vector<std::vector<House> > houses_by_house_price;
 
+    HouseMap() {
+        houses_by_bedroom.resize(5);
+        houses_by_bathroom.resize(5);
+        houses_by_square_feet.resize(2002);
+        houses_by_house_price.resize(58900);
+        houses_by_year_built.resize(43);
+    }
+
     // hash function for number of bedroom as key
     int HashBedRoom(int bedrooms){
         // since number of bedroom only ranges from 2 to 6, the hash function can just return that number minus 2
@@ -52,10 +60,10 @@ public:
         return result;
     }
 
-    int HashArea(float square_feet){
+    int HashArea(int square_feet){
         // range of square_feet is 1500 to 3500
-        int scaledValue = static_cast<int>((square_feet - 1500.0f) * 100.0f);
-        return scaledValue % 10000;
+        int temp = square_feet - 1500;
+        return temp % 1000;
     }
 
     void InsertSquareFeet(House house){
