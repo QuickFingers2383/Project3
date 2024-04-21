@@ -1,11 +1,11 @@
 #include <vector>
 
 struct House{
-    int num_bedroom;
-    int num_bathroom;
-    int year;
-    float area;
-    float price;
+    int bedrooms;
+    int bathrooms;
+    int year_built;
+    float square_feet;
+    float house_price;
 };
 
 // will use a hash map, with separate chaining to solve collisions
@@ -13,109 +13,109 @@ class HouseMap{
     // create 5 maps based on the searching criterion
     std::vector<std::vector<House>> houses_by_bedroom;
     std::vector<std::vector<House>> houses_by_bathroom;
-    std::vector<std::vector<House>> houses_by_area;
-    std::vector<std::vector<House>> houses_by_year;
-    std::vector<std::vector<House>> houses_by_price;
+    std::vector<std::vector<House>> houses_by_square_feet;
+    std::vector<std::vector<House>> houses_by_year_built;
+    std::vector<std::vector<House>> houses_by_house_price;
 
 public:
     // hash function for number of bedroom as key
-    int HashBedRoom(int num_bedroom){
+    int HashBedRoom(int bedrooms){
         // since number of bedroom only ranges from 2 to 6, the hash function can just return that number minus 2
-        return num_bedroom-2;
+        return bedrooms-2;
     }
 
     void InsertBedroom(House house){
         // insert the house into map with hashed index
-        houses_by_bedroom[HashBedRoom(house.num_bedroom)].push_back(house);
+        houses_by_bedroom[HashBedRoom(house.bedrooms)].push_back(house);
     }
 
-    std::vector<House> SearchByBedroom(int num_bedroom){
-        int code = HashBedRoom(num_bedroom);
+    std::vector<House> SearchByBedroom(int bedrooms){
+        int code = HashBedRoom(bedrooms);
         std::vector<House> result;
         for(int i = 0; i < houses_by_bedroom[code].size(); i++){
-            if(houses_by_bedroom[code][i].num_bedroom == num_bedroom){
+            if(houses_by_bedroom[code][i].bedrooms == bedrooms){
                 result.push_back(houses_by_bedroom[code][i]);
             }
         }
         return result;
     }
 
-    int HashBathroom(int num_bathroom){
-        return num_bathroom - 2;
+    int HashBathroom(int bathrooms){
+        return bathrooms - 2;
     }
 
     void InsertBathroom(House house){
-        houses_by_bathroom[HashBathroom(house.num_bathroom)].push_back(house);
+        houses_by_bathroom[HashBathroom(house.bathrooms)].push_back(house);
     }
 
-    std::vector<House> SearchByBathroom(int num_bathroom){
-        int code = HashBathroom(num_bathroom);
+    std::vector<House> SearchByBathroom(int bathrooms){
+        int code = HashBathroom(bathrooms);
         std::vector<House> result;
         for(int i = 0; i < houses_by_bathroom[code].size(); i++){
-            if(houses_by_bathroom[code][i].num_bathroom == num_bathroom){
+            if(houses_by_bathroom[code][i].bathrooms == bathrooms){
                 result.push_back(houses_by_bathroom[code][i]);
             }
         }
         return result;
     }
 
-    int HashArea(float area){
-        // range of area is 1500 to 3500
-        int scaledValue = static_cast<int>((area - 1500.0f) * 100.0f);
+    int HashArea(float square_feet){
+        // range of square_feet is 1500 to 3500
+        int scaledValue = static_cast<int>((square_feet - 1500.0f) * 100.0f);
         return scaledValue % 10000;
     }
 
-    void InsertArea(House house){
-        houses_by_area[HashArea(house.area)].push_back(house);
+    void Insertsquare_feet(House house){
+        houses_by_square_feet[HashArea(house.square_feet)].push_back(house);
     }
 
-    std::vector<House> SearchByArea(float area){
-        int code = HashArea(area);
+    std::vector<House> SearchBysquare_feet(float square_feet){
+        int code = HashArea(square_feet);
         std::vector<House> result;
-        for(int i = 0; i < houses_by_area[code].size(); i++){
-            if(houses_by_area[code][i].area == area){
-                result.push_back(houses_by_area[code][i]);
+        for(int i = 0; i < houses_by_square_feet[code].size(); i++){
+            if(houses_by_square_feet[code][i].square_feet == square_feet){
+                result.push_back(houses_by_square_feet[code][i]);
             }
         }
         return result;
     }
 
-    int HashPrice(float price){
-        // price ranges from 150k to 739k
-        int scaledValue = static_cast<int>(price - 150000);
+    int HashPrice(float house_price){
+        // house_price ranges from 150k to 739k
+        int scaledValue = static_cast<int>(house_price - 150000);
         return scaledValue % 10000;
     }
 
-    void InsertPrice(House house){
-        houses_by_price[HashPrice(house.price)].push_back(house);
+    void Inserthouse_price(House house){
+        houses_by_house_price[HashPrice(house.house_price)].push_back(house);
     }
 
-    std::vector<House> SearchByPrice(float price){
-        int code = HashPrice(price);
+    std::vector<House> SearchByhouse_price(float house_price){
+        int code = HashPrice(house_price);
         std::vector<House> result;
-        for(int i = 0; i < houses_by_price[code].size(); i++){
-            if(houses_by_price[code][i].price == price){
-                result.push_back(houses_by_price[code][i]);
+        for(int i = 0; i < houses_by_house_price[code].size(); i++){
+            if(houses_by_house_price[code][i].house_price == house_price){
+                result.push_back(houses_by_house_price[code][i]);
             }
         }
         return result;
     }
 
-    int HashYear(int year){
-        // range of the year built is 1980 to 2022
-        return year - 1980;
+    int HashYear(int year_built){
+        // range of the year_built built is 1980 to 2022
+        return year_built - 1980;
     }
 
-    void InsertYear(House house){
-        houses_by_year[HashYear(house.year)].push_back(house);
+    void Insertyear_built(House house){
+        houses_by_year_built[HashYear(house.year_built)].push_back(house);
     }
 
-    std::vector<House> SearchByYear(int year){
-        int code = HashYear(year);
+    std::vector<House> SearchByyear_built(int year_built){
+        int code = HashYear(year_built);
         std::vector<House> result;
-        for(int i = 0; i < houses_by_year[code].size(); i++){
-            if(houses_by_year[code][i].year == year){
-                result.push_back(houses_by_year[code][i]);
+        for(int i = 0; i < houses_by_year_built[code].size(); i++){
+            if(houses_by_year_built[code][i].year_built == year_built){
+                result.push_back(houses_by_year_built[code][i]);
             }
         }
         return result;
