@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "b+tree.h"
+#include "hashmap.h"
 #include <chrono>
 
 using namespace std;
@@ -104,6 +105,15 @@ int main() {
     // Insert housing data into the B+ tree
     for (const auto& house : houses) {
         bptree.insert(house);
+    }
+
+    HouseMap housemap;
+    for(int i = 0; i < houses.size(); i++){
+        housemap.InsertBathroom(houses[i]);
+        housemap.InsertBedroom(houses[i]);
+        housemap.InsertArea(houses[i]);
+        housemap.InsertPrice(houses[i]);
+        housemap.InsertYear(houses[i]);
     }
 
     cout << "-----------------------------------------------" << endl;
