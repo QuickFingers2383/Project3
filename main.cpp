@@ -45,20 +45,20 @@ vector<House> parseCSV(const string& filename) {
     return houses;
 }
 
-void timer(int search_type, string parameter) {
+void timer(int search_type, string parameter, BPlusTree bptree, HouseMap housemap) {
     auto bp_start = chrono::high_resolution_clock::now();
     // run b+ tree search function
     // TODO: Add search functions for each type
     if(search_type == 1) {
-
+        housemap.HashArea(parameter);
     } else if(search_type == 2) {
-
+        housemap.HashBedRoom(parameter);
     } else if(search_type == 3) {
-
+        housemap.HashBathroom(parameter);
     } else if(search_type == 4) {
-
+        housemap.HashYear(parameter);
     } else if(search_type == 5) {
-
+        housemap.HashPrice(parameter);
     }
 
     auto bp_stop = chrono::high_resolution_clock::now();
@@ -71,15 +71,15 @@ void timer(int search_type, string parameter) {
     // run b+ tree search function
     // TODO: Add search functions for each type
     if(search_type == 1) {
-
+        bptree.Search(parameter, "square_feet");
     } else if(search_type == 2) {
-
+        bptree.Search(parameter, "bedrooms");
     } else if(search_type == 3) {
-
+        bptree.Search(parameter, "bathrooms");
     } else if(search_type == 4) {
-
+        bptree.Search(parameter, "year");
     } else if(search_type == 5) {
-
+        bptree.Search(parameter, "price");
     }
 
     auto h_stop = chrono::high_resolution_clock::now();
@@ -131,11 +131,11 @@ int main() {
         if(option == 1) {
             // Insert housing data into the B+ tree
             for (const auto& house : houses) {
-                bptree.insert(house, "price");
+                bptree.insert(house, "square_feet");
             }
             cout << "Square feet (between 1.5k-3.5k" << endl;
             cin >> num_sqft;
-            timer(1, num_sqft);
+            timer(1, num_sqft, bptree, housemap);
         }
         if(option == 2) {
             // Insert housing data into the B+ tree
@@ -144,7 +144,7 @@ int main() {
             }
             cout << "Number of bedrooms: 2, 3, 4, 5, 6" << endl;
             cin >> num_bedrooms;
-            timer(2, num_bedrooms);
+            timer(2, num_bedrooms, bptree, housemap);
         }
         if(option == 3) {
             // Insert housing data into the B+ tree
@@ -153,7 +153,7 @@ int main() {
             }
             cout << "Number of bathrooms: 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8" << endl;
             cin >> num_bathrooms;
-            timer(3, num_bathrooms);
+            timer(3, num_bathrooms, bptree, housemap);
         }
         if(option == 4) {
             // Insert housing data into the B+ tree
@@ -162,7 +162,7 @@ int main() {
             }
             cout << "Year built: 1980-2022" << endl;
             cin >> year;
-            timer(4, year);
+            timer(4, year, bptree, housemap);
         }
         if(option == 5) {
             // Insert housing data into the B+ tree
@@ -171,7 +171,7 @@ int main() {
             }
             cout << "Price: 150k-739k" << endl;
             cin >> price;
-            timer(5, price);
+            timer(5, price, bptree, housemap);
         }
         if(option == 6) {
             break;
