@@ -3,9 +3,7 @@
 //
 #include "b+tree.h"
 
-
-
-void BPlusTree::insert(House house) {
+void BPlusTree::priceInsert(House house, string type) {
     // If the tree is empty, create a new root
     if (root == nullptr) {
         root = new Node();
@@ -20,8 +18,26 @@ void BPlusTree::insert(House house) {
     while (!current->leaf) {
         parent = current;
         int i = 0;
-        while (i < current->houses.size() && house.house_price > current->houses[i].house_price) {
-            i++;
+        if(type == "price") {
+            while (i < current->houses.size() && house.house_price > current->houses[i].house_price) {
+                i++;
+            }
+        } else if(type == "square_feet") {
+            while (i < current->houses.size() && house.square_feet > current->houses[i].square_feet) {
+                i++;
+            }
+        } else if(type == "bedrooms") {
+            while (i < current->houses.size() && house.bedrooms > current->houses[i].bedrooms) {
+                i++;
+            }
+        } else if(type == "bathrooms") {
+            while (i < current->houses.size() && house.bathrooms > current->houses[i].bathrooms) {
+                i++;
+            }
+        } else if(type == "year") {
+            while (i < current->houses.size() && house.year_built > current->houses[i].year_built) {
+                i++;
+            }
         }
         current = current->children[i];
     }
@@ -45,8 +61,26 @@ void BPlusTree::insert(House house) {
             parent->children.push_back(current);
         }
         int i = 0;
-        while (i < parent->houses.size() && parent->houses[i].house_price < new_leaf->houses[0].house_price) {
-            i++;
+        if(type == "price") {
+            while (i < parent->houses.size() && parent->houses[i].house_price < new_leaf->houses[0].house_price) {
+                i++;
+            }
+        } else if (type == "square_feet") {
+            while (i < parent->houses.size() && parent->houses[i].square_feet < new_leaf->houses[0].square_feet) {
+                i++;
+            }
+        } else if (type == "bedrooms") {
+            while (i < parent->houses.size() && parent->houses[i].bedrooms < new_leaf->houses[0].bedrooms) {
+                i++;
+            }
+        } else if (type == "bathrooms") {
+            while (i < parent->houses.size() && parent->houses[i].bathrooms < new_leaf->houses[0].bathrooms) {
+                i++;
+            }
+        } else if (type == "year") {
+            while (i < parent->houses.size() && parent->houses[i].year_built < new_leaf->houses[0].year_built) {
+                i++;
+            }
         }
         parent->houses.insert(parent->houses.begin() + i, new_leaf->houses[0]);
         parent->children.insert(parent->children.begin() + i + 1, new_leaf);
@@ -54,7 +88,7 @@ void BPlusTree::insert(House house) {
 }
 
 //searches for house in b+ tree, returns pointer if found
-House* BPlusTree::search(int price) {
+House* BPlusTree::Search(float key, string type) {
     if (root == nullptr) {
         return nullptr;
     }
@@ -64,20 +98,56 @@ House* BPlusTree::search(int price) {
     while (!current->leaf) {
         int i = 0;
         //navigates to the correct node, similar to insert
-        while (i < current->houses.size() && price > current->houses[i].house_price) {
-            i++;
+        if(type == "price") {
+            while (i < current->houses.size() && key > current->houses[i].house_price) {
+                i++;
+            }
+        } else if(type == "square_feet") {
+            while (i < current->houses.size() && key > current->houses[i].square_feet) {
+                i++;
+            }
+        } else if(type == "bedrooms") {
+            while (i < current->houses.size() && key > current->houses[i].bedrooms) {
+                i++;
+            }
+        } else if(type == "bathrooms") {
+            while (i < current->houses.size() && key > current->houses[i].bathrooms) {
+                i++;
+            }
+        } else if(type == "year") {
+            while (i < current->houses.size() && key > current->houses[i].year_built) {
+                i++;
+            }
         }
         current = current->children[i];
     }
 
     for (auto &house : current->houses) {
-        if (house.house_price == price) {
-            return &house; // returns a pointer to the house if found
+        if(type == "price") {
+            if (house.house_price == key) {
+                return &house; // returns a pointer to the house if found
+            }
+        } else if(type == "square_feet") {
+            if (house.square_feet == key) {
+                return &house; // returns a pointer to the house if found
+            }
+        } else if(type == "bedrooms") {
+            if (house.bedrooms == key) {
+                return &house; // returns a pointer to the house if found
+            }
+        } else if(type == "bathrooms") {
+            if (house.bathrooms == key) {
+                return &house; // returns a pointer to the house if found
+            }
+        } else if(type == "year") {
+            if (house.year_built == key) {
+                return &house; // returns a pointer to the house if found
+            }
         }
     }
-
     return nullptr; // house with the exact price not found
 }
+
 
 //removes from B+ tree
 void BPlusTree::remove(int price) {

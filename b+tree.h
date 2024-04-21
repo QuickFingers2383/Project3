@@ -36,7 +36,7 @@ private:
     int degree; // Degree of the B+ tree
 public:
     BPlusTree(int degree) : root(nullptr), degree(degree) {}
-    void insert(House house);
-    House search(int key);
+    void Insert(House house, string type);
+    House Search(float key, string type);
     void remove(int key);
 };
