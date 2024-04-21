@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "b+tree.h"
+#include "hashmap.h"
 #include <chrono>
 
 using namespace std;
@@ -99,6 +100,15 @@ int main() {
     if (houses.empty()) {
         cout << "No housing data found in file: " << filename << endl;
         return 1;
+    }
+
+    HouseMap housemap;
+    for(int i = 0; i < houses.size(); i++){
+        housemap.InsertBathroom(houses[i]);
+        housemap.InsertBedroom(houses[i]);
+        housemap.InsertArea(houses[i]);
+        housemap.InsertPrice(houses[i]);
+        housemap.InsertYear(houses[i]);
     }
 
     cout << "-----------------------------------------------" << endl;
