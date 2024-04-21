@@ -44,7 +44,7 @@ vector<House> parseCSV(const string& filename) {
     return houses;
 }
 
-void timer(int search_type) {
+void timer(int search_type, string parameter) {
     auto bp_start = chrono::high_resolution_clock::now();
     // run b+ tree search function
     // TODO: Add search functions for each type
@@ -113,6 +113,7 @@ int main() {
     int option;
     string num_bedrooms, num_bathrooms, num_sqft, year, price;
 
+    // run search functions then display results of search function and time it took
     while(true) {
         cout << "Choose what option you want: " << endl;
         cout << "Search by Square Feet (1)\n"
@@ -125,33 +126,32 @@ int main() {
         if(option == 1) {
             cout << "Square feet: 1.5k-2k, 2k-2.5k, 2.5k-3k, 3k-3.5k" << endl;
             cin >> num_sqft;
-            timer(1);
+            timer(1, num_sqft);
         }
         if(option == 2) {
             cout << "Number of bedrooms: 2, 3, 4, 5, 6" << endl;
             cin >> num_bedrooms;
-            timer(2);
+            timer(2, num_bedrooms);
         }
         if(option == 3) {
             cout << "Number of bathrooms: 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8" << endl;
             cin >> num_bathrooms;
-            timer(3);
+            timer(3, num_bathrooms);
         }
         if(option == 4) {
             cout << "Year built: 1980-1985, 1985-1990, 1990-1995, 1995-2000, 200-2005, 2005-2010, 2010-2015, 2015+" << endl;
             cin >> year;
-            timer(4);
+            timer(4, year);
         }
         if(option == 5) {
             cout << "Price: 150k-200k, 200k-250k, 250k-300k, 300k-350k. 350k-400k, 400k-450k, 450k-500k, 500k-550k, 550k-600k, 600k+" << endl;
             cin >> price;
-            timer(5);
+            timer(5, price);
         }
         if(option == 6) {
             break;
         }
     }
-    // run search functions for parameters then display
 
     return 0;
 }
