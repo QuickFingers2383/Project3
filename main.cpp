@@ -5,6 +5,7 @@
 #include <string>
 #include "b+tree.h"
 #include "hashmap.h"
+#include "House.h"
 #include <chrono>
 
 using namespace std;
