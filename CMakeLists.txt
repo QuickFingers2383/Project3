@@ -8,4 +8,5 @@ add_executable(Project3 main.cpp
         b+tree.h
         hashmap.h
         b+tree.cpp
+        House.h
 )

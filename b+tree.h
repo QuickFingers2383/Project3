@@ -5,21 +5,11 @@
 #ifndef PROJECT3_B_TREE_H
 #define PROJECT3_B_TREE_H
 
-#endif //PROJECT3_B_TREE_H
-
 #include <iostream>
 #include <vector>
+#include "House.h"
 
 using namespace std;
-
-// House struct
-struct House {
-    double house_price;
-    int square_feet;
-    int bedrooms;
-    float bathrooms;
-    int year_built;
-};
 
 // Tree node
 struct Node {
@@ -41,3 +31,5 @@ public:
     void remove(int key);
     void handleUnderflow(Node* current, Node* parent);
 };
+
+#endif //PROJECT3_B_TREE_H

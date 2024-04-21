@@ -1,5 +1,5 @@
 #include <vector>
-#include "b+tree.h"
+#include "House.h"
 
 // will use a hash map, with separate chaining to solve collisions
 class HouseMap{
