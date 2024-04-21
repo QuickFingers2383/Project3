@@ -37,6 +37,7 @@ private:
 public:
     BPlusTree(int degree) : root(nullptr), degree(degree) {}
     void Insert(House house, string type);
-    House Search(float key, string type);
+    House* Search(float key, string type);
     void remove(int key);
+    void handleUnderflow(Node* current, Node* parent);
 };

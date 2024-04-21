@@ -3,7 +3,7 @@
 //
 #include "b+tree.h"
 
-void BPlusTree::priceInsert(House house, string type) {
+void BPlusTree::Insert(House house, string type) {
     // If the tree is empty, create a new root
     if (root == nullptr) {
         root = new Node();
