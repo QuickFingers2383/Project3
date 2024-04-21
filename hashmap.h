@@ -33,8 +33,8 @@ public:
         return result;
     }
 
-    int HashBathroom(int bathrooms){
-        return bathrooms - 2;
+    int HashBathroom(float bathrooms){
+        return static_cast<int>(bathrooms - 1.0);
     }
 
     void InsertBathroom(House house){
