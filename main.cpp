@@ -26,7 +26,7 @@ vector<House> parseCSV(const string& filename) {
     while (getline(file, line)) {
         stringstream ss(line);
         string cell;
-        House house{};
+        House house;
         // Read each cell of the line
         getline(ss, cell, ','); // square_feet
         house.square_feet = stoi(cell);
@@ -45,20 +45,20 @@ vector<House> parseCSV(const string& filename) {
     return houses;
 }
 
-void timer(int search_type, string parameter, BPlusTree bptree, HouseMap housemap) {
+void timer(int search_type, float parameter, BPlusTree bptree, HouseMap housemap) {
     auto bp_start = chrono::high_resolution_clock::now();
     // run b+ tree search function
     // TODO: Add search functions for each type
     if(search_type == 1) {
-        housemap.HashArea(parameter);
+        housemap.SearchByArea(parameter);
     } else if(search_type == 2) {
-        housemap.HashBedRoom(parameter);
+        housemap.SearchByBedroom(parameter);
     } else if(search_type == 3) {
-        housemap.HashBathroom(parameter);
+        housemap.SearchByBathroom(parameter);
     } else if(search_type == 4) {
-        housemap.HashYear(parameter);
+        housemap.SearchByYearBuilt(parameter);
     } else if(search_type == 5) {
-        housemap.HashPrice(parameter);
+        housemap.SearchByHousePrice(parameter);
     }
 
     auto bp_stop = chrono::high_resolution_clock::now();
@@ -95,7 +95,7 @@ int main() {
     BPlusTree bptree(3);
 
     // Only the absolute path works, not sure why. Change this path in your computer!
-    string filename = R"(C:\Users\yjwan\CLionProjects\Project3\data\house_data1.csv)";
+    string filename = "/Users/john/CLionProjects/DSAProject3/data/house_data1.csv";
     vector<House> houses = parseCSV(filename);
     if (houses.empty()) {
         cout << "No housing data found in file: " << filename << endl;
@@ -106,9 +106,9 @@ int main() {
     for(int i = 0; i < houses.size(); i++){
         housemap.InsertBathroom(houses[i]);
         housemap.InsertBedroom(houses[i]);
-        housemap.InsertArea(houses[i]);
-        housemap.InsertPrice(houses[i]);
-        housemap.InsertYear(houses[i]);
+        housemap.InsertSquareFeet(houses[i]);
+        housemap.InsertHousePrice(houses[i]);
+        housemap.InsertYearBuilt(houses[i]);
     }
 
     cout << "-----------------------------------------------" << endl;
@@ -116,7 +116,7 @@ int main() {
     cout << "-----------------------------------------------" << endl;
 
     int option;
-    string num_bedrooms, num_bathrooms, num_sqft, year, price;
+    float num_sqft, num_bedrooms, num_bathrooms, year, price;
 
     // run search functions then display results of search function and time it took
     while(true) {
@@ -131,7 +131,7 @@ int main() {
         if(option == 1) {
             // Insert housing data into the B+ tree
             for (const auto& house : houses) {
-                bptree.insert(house, "square_feet");
+                bptree.Insert(house, "square_feet");
             }
             cout << "Square feet (between 1.5k-3.5k" << endl;
             cin >> num_sqft;
@@ -140,7 +140,7 @@ int main() {
         if(option == 2) {
             // Insert housing data into the B+ tree
             for (const auto& house : houses) {
-                bptree.insert(house, "bedrooms");
+                bptree.Insert(house, "bedrooms");
             }
             cout << "Number of bedrooms: 2, 3, 4, 5, 6" << endl;
             cin >> num_bedrooms;
@@ -149,7 +149,7 @@ int main() {
         if(option == 3) {
             // Insert housing data into the B+ tree
             for (const auto& house : houses) {
-                bptree.insert(house, "bathrooms");
+                bptree.Insert(house, "bathrooms");
             }
             cout << "Number of bathrooms: 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8" << endl;
             cin >> num_bathrooms;
@@ -158,7 +158,7 @@ int main() {
         if(option == 4) {
             // Insert housing data into the B+ tree
             for (const auto& house : houses) {
-                bptree.insert(house, "year");
+                bptree.Insert(house, "year");
             }
             cout << "Year built: 1980-2022" << endl;
             cin >> year;
@@ -167,7 +167,7 @@ int main() {
         if(option == 5) {
             // Insert housing data into the B+ tree
             for (const auto& house : houses) {
-                bptree.insert(house, "price");
+                bptree.Insert(house, "price");
             }
             cout << "Price: 150k-739k" << endl;
             cin >> price;
