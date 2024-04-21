@@ -46,7 +46,7 @@ vector<House> parseCSV(const string& filename) {
 }
 
 void timer(int search_type, float parameter, BPlusTree bptree, HouseMap housemap) {
-    auto bp_start = chrono::high_resolution_clock::now();
+    auto h_start = chrono::high_resolution_clock::now();
     // run b+ tree search function
     // TODO: Add search functions for each type
     if(search_type == 1) {
@@ -61,13 +61,13 @@ void timer(int search_type, float parameter, BPlusTree bptree, HouseMap housemap
         housemap.SearchByHousePrice(parameter);
     }
 
-    auto bp_stop = chrono::high_resolution_clock::now();
+    auto h_stop = chrono::high_resolution_clock::now();
 
     // display stuff
-    auto bp_duration = chrono::duration_cast<chrono::microseconds>(bp_stop-bp_start);
+    auto bp_duration = chrono::duration_cast<chrono::microseconds>(h_stop-h_start);
     cout << "Duration: " << bp_duration.count() << endl;
 
-    auto h_start = chrono::high_resolution_clock::now();
+    auto bp_start = chrono::high_resolution_clock::now();
     // run b+ tree search function
     // TODO: Add search functions for each type
     if(search_type == 1) {
@@ -82,10 +82,10 @@ void timer(int search_type, float parameter, BPlusTree bptree, HouseMap housemap
         bptree.Search(parameter, "price");
     }
 
-    auto h_stop = chrono::high_resolution_clock::now();
+    auto bp_stop = chrono::high_resolution_clock::now();
 
     // TODO: Display search results
-    auto h_duration = chrono::duration_cast<chrono::microseconds>(h_stop-h_start);
+    auto h_duration = chrono::duration_cast<chrono::microseconds>(bp_stop-bp_start);
     cout << "Duration: " << h_duration.count() << endl;
 
 }
