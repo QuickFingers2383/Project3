@@ -166,6 +166,7 @@ House* BPlusTree::Search(float key, const string& type) {
             }
         }
     }
+    cout << "House with " << type << " specific parameter not found" << endl;
     return nullptr; // house with the exact price not found
 }
 
