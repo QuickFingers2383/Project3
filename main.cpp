@@ -148,7 +148,7 @@ int main() {
                 bptree.Insert(house, "bathrooms");
                 housemap.InsertBathroom(house);
             }
-            cout << "Number of bathrooms: 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8" << endl;
+            cout << "Number of bathrooms: 2, 2.5, 3, 3.5, 4" << endl;
             cin >> num_bathrooms;
             timer(3, num_bathrooms, bptree, housemap);
         }
