@@ -11,23 +11,23 @@
 
 using namespace std;
 
-// Tree node
-struct Node {
-    vector<House> houses; // Stores houses
-    vector<Node*> children; // Stores pointers to child nodes
-    bool leaf; // Indicates if the node is a leaf
-    Node() : leaf(true) {}
-};
-
 // B+ tree clas
 class BPlusTree {
 private:
+    // Tree node
+    struct Node {
+        vector<House> houses; // Stores houses
+        vector<Node*> children; // Stores pointers to child nodes
+        bool leaf; // Indicates if the node is a leaf
+        Node() : leaf(true) {}
+    };
     Node* root;
     int degree; // Degree of the B+ tree
 public:
     BPlusTree(int degree) : root(nullptr), degree(degree) {}
     void Insert(House house, string type);
     House* Search(float key, string type);
+    void display(House house);
     void remove(int key);
     void handleUnderflow(Node* current, Node* parent);
 };

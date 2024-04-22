@@ -89,6 +89,14 @@ void BPlusTree::Insert(House house, string type) {
     }
 }
 
+void BPlusTree::display(House house) {
+    cout << "Price: " << house.house_price <<
+    "\nArea: " << house.square_feet <<
+    "\nNumber of bedrooms: " << house.bedrooms <<
+    "\nNumber of bathrooms: " << house.bathrooms <<
+    "\nYear built: " << house.year_built << endl;
+}
+
 //searches for house in b+ tree, returns pointer if found
 House* BPlusTree::Search(float key, string type) {
     if (root == nullptr) {
@@ -127,22 +135,37 @@ House* BPlusTree::Search(float key, string type) {
     for (auto &house : current->houses) {
         if(type == "price") {
             if (house.house_price == key) {
+                for(int i = 0; i < 5; i++) {
+                    display(current->houses[i]);
+                }
                 return &house; // returns a pointer to the house if found
             }
         } else if(type == "square_feet") {
             if (house.square_feet == key) {
+                for(int i = 0; i < 5; i++) {
+                    display(current->houses[i]);
+                }
                 return &house; // returns a pointer to the house if found
             }
         } else if(type == "bedrooms") {
             if (house.bedrooms == key) {
+                for(int i = 0; i < 5; i++) {
+                    display(current->houses[i]);
+                }
                 return &house; // returns a pointer to the house if found
             }
         } else if(type == "bathrooms") {
             if (house.bathrooms == key) {
+                for(int i = 0; i < 5; i++) {
+                    display(current->houses[i]);
+                }
                 return &house; // returns a pointer to the house if found
             }
         } else if(type == "year") {
             if (house.year_built == key) {
+                for(int i = 0; i < 5; i++) {
+                    display(current->houses[i]);
+                }
                 return &house; // returns a pointer to the house if found
             }
         }
