@@ -3,34 +3,139 @@
 
 // will use a hash map, with separate chaining to solve collisions
 class HouseMap{
-public:
+private:
     // create 5 maps based on the searching criterion
     std::vector<std::vector<House> > houses_by_bedroom;
     std::vector<std::vector<House> > houses_by_bathroom;
     std::vector<std::vector<House> > houses_by_square_feet;
     std::vector<std::vector<House> > houses_by_year_built;
     std::vector<std::vector<House> > houses_by_house_price;
+    int num_buckets;
+    float load_factor;
+    int size;
 
+    int HashBedRoom(int bedrooms) {
+        return bedrooms % num_buckets;
+    }
+
+    int HashBathroom(float bathrooms) {
+        return static_cast<int>(bathrooms) % num_buckets;
+    }
+
+    int HashArea(int square_feet) {
+        return square_feet % num_buckets;
+    }
+
+    int HashPrice(float house_price) {
+        return static_cast<int>(house_price) % num_buckets;
+    }
+
+    int HashYear(int year_built) {
+        return year_built % num_buckets;
+    }
+
+    void checkAndRehash() {
+        if ((float)size / num_buckets > load_factor)
+            rehash();
+    }
+
+    void rehash() {
+        num_buckets *= 2;
+        std::vector<std::vector<House>> new_houses_by_bedroom(num_buckets);
+        std::vector<std::vector<House>> new_houses_by_bathroom(num_buckets);
+        std::vector<std::vector<House>> new_houses_by_square_feet(num_buckets);
+        std::vector<std::vector<House>> new_houses_by_house_price(num_buckets);
+        std::vector<std::vector<House>> new_houses_by_year_built(num_buckets);
+        for (auto& bucket : houses_by_bedroom) {
+            for (auto& house : bucket) {
+                int index = HashBedRoom(house.bedrooms);
+                new_houses_by_bedroom[index].push_back(house);
+            }
+        }
+        for (auto& bucket : houses_by_bathroom) {
+            for (auto& house : bucket) {
+                int index = HashBathroom(house.bathrooms);
+                new_houses_by_bathroom[index].push_back(house);
+            }
+        }
+        for (auto& bucket : houses_by_square_feet) {
+            for (auto& house : bucket) {
+                int index = HashArea(house.square_feet);
+                new_houses_by_square_feet[index].push_back(house);
+            }
+        }
+        for (auto& bucket : houses_by_house_price) {
+            for (auto& house : bucket) {
+                int index = HashPrice(house.house_price);
+                new_houses_by_house_price[index].push_back(house);
+            }
+        }
+        for (auto& bucket : houses_by_year_built) {
+            for (auto& house : bucket) {
+                int index = HashYear(house.year_built);
+                new_houses_by_year_built[index].push_back(house);
+            }
+        }
+        houses_by_bedroom = std::move(new_houses_by_bedroom);
+        houses_by_bathroom = std::move(new_houses_by_bathroom);
+        houses_by_square_feet = std::move(new_houses_by_square_feet);
+        houses_by_house_price = std::move(new_houses_by_house_price);
+        houses_by_year_built = std::move(new_houses_by_year_built);
+    }
+
+public:
     HouseMap() {
-        houses_by_bedroom.resize(5);
-        houses_by_bathroom.resize(5);
-        houses_by_square_feet.resize(2002);
-        houses_by_house_price.resize(58900);
-        houses_by_year_built.resize(43);
+        num_buckets = 10;
+        load_factor = 0.75;
+        size = 0;
+        houses_by_bedroom.resize(num_buckets);
+        houses_by_bathroom.resize(num_buckets);
+        houses_by_square_feet.resize(num_buckets);
+        houses_by_house_price.resize(num_buckets);
+        houses_by_year_built.resize(num_buckets);
     }
 
-    // hash function for number of bedroom as key
-    int HashBedRoom(int bedrooms){
-        // since number of bedroom only ranges from 2 to 6, the hash function can just return that number minus 2
-        return bedrooms-2;
+    void InsertBedroom(House house) {
+        int index = HashBedRoom(house.bedrooms);
+        if (houses_by_bedroom[index].empty())
+            size++;
+        houses_by_bedroom[index].push_back(house);
+        checkAndRehash();
     }
 
-    void InsertBedroom(House house){
-        // insert the house into map with hashed index
-        houses_by_bedroom[HashBedRoom(house.bedrooms)].push_back(house);
+    void InsertBathroom(House house) {
+        int index = HashBathroom(house.bathrooms);
+        if (houses_by_bathroom[index].empty())
+            size++;
+        houses_by_bathroom[index].push_back(house);
+        checkAndRehash();
     }
 
-    std::vector<House> SearchByBedroom(int bedrooms) {
+    void InsertSquareFeet(House house) {
+        int index = HashArea(house.square_feet);
+        if (houses_by_square_feet[index].empty())
+            size++;
+        houses_by_square_feet[index].push_back(house);
+        checkAndRehash();
+    }
+
+    void InsertHousePrice(House house) {
+        int index = HashPrice(house.house_price);
+        if (houses_by_house_price[index].empty())
+            size++;
+        houses_by_house_price[index].push_back(house);
+        checkAndRehash();
+    }
+
+    void InsertYearBuilt(House house) {
+        int index = HashYear(house.year_built);
+        if (houses_by_year_built[index].empty())
+            size++;
+        houses_by_year_built[index].push_back(house);
+        checkAndRehash();
+    }
+
+    std::vector<House> SearchByBedroom(int bedrooms){
         int code = HashBedRoom(bedrooms);
         std::vector<House> result;
         for(int i = 0; i < houses_by_bedroom[code].size(); i++){
@@ -39,14 +144,6 @@ public:
             }
         }
         return result;
-    }
-
-    int HashBathroom(float bathrooms){
-        return static_cast<int>(bathrooms - 1.0);
-    }
-
-    void InsertBathroom(House house){
-        houses_by_bathroom[HashBathroom(house.bathrooms)].push_back(house);
     }
 
     std::vector<House> SearchByBathroom(int bathrooms){
@@ -60,16 +157,6 @@ public:
         return result;
     }
 
-    int HashArea(int square_feet){
-        // range of square_feet is 1500 to 3500
-        int temp = square_feet - 1500;
-        return temp % 1000;
-    }
-
-    void InsertSquareFeet(House house){
-        houses_by_square_feet[HashArea(house.square_feet)].push_back(house);
-    }
-
     std::vector<House> SearchByArea(float square_feet){
         int code = HashArea(square_feet);
         std::vector<House> result;
@@ -79,16 +166,6 @@ public:
             }
         }
         return result;
-    }
-
-    int HashPrice(float house_price){
-        // house_price ranges from 150k to 739k
-        int scaledValue = static_cast<int>(house_price - 150000);
-        return scaledValue % 10000;
-    }
-
-    void InsertHousePrice(House house){
-        houses_by_house_price[HashPrice(house.house_price)].push_back(house);
     }
 
     std::vector<House> SearchByHousePrice(float house_price){
@@ -102,15 +179,6 @@ public:
         return result;
     }
 
-    int HashYear(int year_built){
-        // range of the year_built built is 1980 to 2022
-        return year_built - 1980;
-    }
-
-    void InsertYearBuilt(House house){
-        houses_by_year_built[HashYear(house.year_built)].push_back(house);
-    }
-
     std::vector<House> SearchByYearBuilt(int year_built){
         int code = HashYear(year_built);
         std::vector<House> result;
@@ -121,4 +189,16 @@ public:
         }
         return result;
     }
+
+    void Display(vector<House> houses){
+        for(int i = 0; i < 5; i++){
+            cout << "Number of bedrooms: " << houses[i].bedrooms << endl;
+            cout << "Number of bathrooms: " << houses[i].bathrooms << endl;
+            cout << "Area: " << houses[i].square_feet << endl;
+            cout << "Year built: " << houses[i].year_built << endl;
+            cout << "Price: " << houses[i].house_price << endl;
+            cout << endl;
+        }
+    }
 };
+
