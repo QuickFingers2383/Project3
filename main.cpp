@@ -48,29 +48,30 @@ vector<House> parseCSV(const string& filename) {
 
 void timer(int search_type, float parameter, BPlusTree bptree, HouseMap housemap) {
     auto h_start = chrono::high_resolution_clock::now();
-    // run b+ tree search function
-    // TODO: Add search functions for each type
+    // run hash map search function
+    cout << "Displaying five results" << endl;
     if(search_type == 1) {
-        housemap.SearchByArea(parameter);
+        housemap.Display(housemap.SearchByArea(parameter));
     } else if(search_type == 2) {
-        housemap.SearchByBedroom(parameter);
+        housemap.Display(housemap.SearchByBedroom(parameter));
     } else if(search_type == 3) {
-        housemap.SearchByBathroom(parameter);
+        housemap.Display(housemap.SearchByBathroom(parameter));
     } else if(search_type == 4) {
-        housemap.SearchByYearBuilt(parameter);
+        housemap.Display(housemap.SearchByYearBuilt(parameter));
     } else if(search_type == 5) {
-        housemap.SearchByHousePrice(parameter);
+        housemap.Display(housemap.SearchByHousePrice(parameter));
     }
 
     auto h_stop = chrono::high_resolution_clock::now();
-
-    // display stuff
+    
     auto bp_duration = chrono::duration_cast<chrono::microseconds>(h_stop-h_start);
     cout << "Duration: " << bp_duration.count() << endl;
+    cout << "-------" << endl;  // separate two methods
 
     auto bp_start = chrono::high_resolution_clock::now();
     // run b+ tree search function
-    // TODO: Add search functions for each type
+    cout << "Displaying five results" << endl;
+    // TODO: Display search results
     if(search_type == 1) {
         bptree.Search(parameter, "square_feet");
     } else if(search_type == 2) {
@@ -84,13 +85,10 @@ void timer(int search_type, float parameter, BPlusTree bptree, HouseMap housemap
     }
 
     auto bp_stop = chrono::high_resolution_clock::now();
-
-    // TODO: Display search results
+    
     auto h_duration = chrono::duration_cast<chrono::microseconds>(bp_stop-bp_start);
     cout << "Duration: " << h_duration.count() << endl;
-
 }
-
 int main() {
     // Create a B+ tree
     BPlusTree bptree(3);
