@@ -49,7 +49,7 @@ vector<House> parseCSV(const string& filename) {
 void timer(int search_type, float parameter, BPlusTree bptree, HouseMap housemap) {
     auto h_start = chrono::high_resolution_clock::now();
     // run hash map search function
-    cout << "Displaying five results" << endl;
+    cout << "Displaying five results\n" << endl;
     if(search_type == 1) {
         housemap.Display(housemap.SearchByArea(parameter));
     } else if(search_type == 2) {
@@ -66,11 +66,11 @@ void timer(int search_type, float parameter, BPlusTree bptree, HouseMap housemap
     
     auto bp_duration = chrono::duration_cast<chrono::microseconds>(h_stop-h_start);
     cout << "Duration: " << bp_duration.count() << endl;
-    cout << "-------" << endl;  // separate two methods
+    cout << "---------------------------------" << endl;  // separate two methods
 
     auto bp_start = chrono::high_resolution_clock::now();
     // run b+ tree search function
-    cout << "Displaying five results" << endl;
+    cout << "Displaying five results\n" << endl;
     // TODO: Display search results
     if(search_type == 1) {
         bptree.Search(parameter, "square_feet");
@@ -94,7 +94,7 @@ int main() {
     BPlusTree bptree(3);
 
     // Only the absolute path works, not sure why. Change this path in your computer!
-    string filename = "/Users/john/CLionProjects/DSAProject3/data/house_data1.csv";
+    string filename = R"(C:\Users\yjwan\CLionProjects\Project3\data\house_data1.csv)";
     vector<House> houses = parseCSV(filename);
     if (houses.empty()) {
         cout << "No housing data found in file: " << filename << endl;
@@ -132,7 +132,7 @@ int main() {
             for (const auto& house : houses) {
                 bptree.Insert(house, "square_feet");
             }
-            cout << "Square feet (between 1.5k-3.5k" << endl;
+            cout << "Square feet (between 1.5k-3.5k)" << endl;
             cin >> num_sqft;
             timer(1, num_sqft, bptree, housemap);
         }
