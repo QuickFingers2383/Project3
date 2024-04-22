@@ -94,11 +94,11 @@ void BPlusTree::Insert(House house, string type) {
 }
 
 void BPlusTree::display(House house) {
-    cout << "Price: " << house.house_price <<
-    "\nArea: " << house.square_feet <<
-    "\nNumber of bedrooms: " << house.bedrooms <<
+    cout << "Number of bedrooms: " << house.bedrooms <<
     "\nNumber of bathrooms: " << house.bathrooms <<
+    "\nArea: " << house.square_feet <<
     "\nYear built: " << house.year_built <<
+    "\nPrice: " << house.house_price <<
     "\n" << endl;
 }
 
@@ -141,22 +141,27 @@ House* BPlusTree::Search(float key, const string& type) {
     for (auto &house : current->houses) {
         if(type == "price") {
             if (house.house_price == key) {
+                display(house);
                 return &house; // returns a pointer to the house if found
             }
         } else if(type == "square_feet") {
             if (house.square_feet == key) {
+                display(house);
                 return &house; // returns a pointer to the house if found
             }
         } else if(type == "bedrooms") {
             if (house.bedrooms == key) {
+                display(house);
                 return &house; // returns a pointer to the house if found
             }
         } else if(type == "bathrooms") {
             if (house.bathrooms == key) {
+                display(house);
                 return &house; // returns a pointer to the house if found
             }
         } else if(type == "year") {
             if (house.year_built == key) {
+                display(house);
                 return &house; // returns a pointer to the house if found
             }
         }

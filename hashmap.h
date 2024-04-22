@@ -191,14 +191,12 @@ public:
     }
 
     void Display(vector<House> houses){
-        for(int i = 0; i < 5; i++){
-            cout << "Number of bedrooms: " << houses[i].bedrooms << endl;
-            cout << "Number of bathrooms: " << houses[i].bathrooms << endl;
-            cout << "Area: " << houses[i].square_feet << endl;
-            cout << "Year built: " << houses[i].year_built << endl;
-            cout << "Price: " << houses[i].house_price << endl;
+            cout << "Number of bedrooms: " << houses[0].bedrooms << endl;
+            cout << "Number of bathrooms: " << houses[0].bathrooms << endl;
+            cout << "Area: " << houses[0].square_feet << endl;
+            cout << "Year built: " << houses[0].year_built << endl;
+            cout << "Price: " << houses[0].house_price << endl;
             cout << endl;
-        }
     }
 };
 

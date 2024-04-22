@@ -49,7 +49,7 @@ vector<House> parseCSV(const string& filename) {
 void timer(int search_type, float parameter, BPlusTree bptree, HouseMap housemap) {
     auto h_start = chrono::high_resolution_clock::now();
     // run hash map search function
-    cout << "Displaying five results\n" << endl;
+    cout << "Displaying One Result: " << endl;
     if(search_type == 1) {
         housemap.Display(housemap.SearchByArea(parameter));
     } else if(search_type == 2) {
@@ -65,12 +65,12 @@ void timer(int search_type, float parameter, BPlusTree bptree, HouseMap housemap
     auto h_stop = chrono::high_resolution_clock::now();
     
     auto bp_duration = chrono::duration_cast<chrono::microseconds>(h_stop-h_start);
-    cout << "Duration: " << bp_duration.count() << endl;
-    cout << "---------------------------------" << endl;  // separate two methods
+    cout << "Duration of Hash map: " << bp_duration.count() << endl;
+    cout << "-------------------------------" << endl;  // separate two methods
 
     auto bp_start = chrono::high_resolution_clock::now();
     // run b+ tree search function
-    cout << "Displaying five results\n" << endl;
+    cout << "Displaying One Result: " << endl;
     // TODO: Display search results
     if(search_type == 1) {
         bptree.Search(parameter, "square_feet");
@@ -87,14 +87,14 @@ void timer(int search_type, float parameter, BPlusTree bptree, HouseMap housemap
     auto bp_stop = chrono::high_resolution_clock::now();
     
     auto h_duration = chrono::duration_cast<chrono::microseconds>(bp_stop-bp_start);
-    cout << "Duration: " << h_duration.count() << endl;
+    cout << "Duration of B+ Tree: " << h_duration.count() << endl;
 }
 int main() {
     // Create a B+ tree
     BPlusTree bptree(3);
 
     // Only the absolute path works, not sure why. Change this path in your computer!
-    string filename = R"(C:\Users\yjwan\CLionProjects\Project3\data\house_data1.csv)";
+    string filename = "C:\\Users\\yjwan\\CLionProjects\\Project3\\data\\house_data1.csv";
     vector<House> houses = parseCSV(filename);
     if (houses.empty()) {
         cout << "No housing data found in file: " << filename << endl;
