@@ -49,7 +49,7 @@ vector<House> parseCSV(const string& filename) {
 void timer(int search_type, float parameter, BPlusTree bptree, HouseMap housemap) {
     auto h_start = chrono::high_resolution_clock::now();
     // run hash map search function
-    cout << "Displaying five results" << endl;
+    cout << "Displaying One Result: " << endl;
     if(search_type == 1) {
         housemap.Display(housemap.SearchByArea(parameter));
     } else if(search_type == 2) {
@@ -70,7 +70,7 @@ void timer(int search_type, float parameter, BPlusTree bptree, HouseMap housemap
 
     auto bp_start = chrono::high_resolution_clock::now();
     // run b+ tree search function
-    cout << "Displaying five results" << endl;
+    cout << "Displaying One Result: " << endl;
     // TODO: Display search results
     if(search_type == 1) {
         bptree.Search(parameter, "square_feet");
